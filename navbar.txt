@@ -1,0 +1,18 @@
+import React, { Component } from 'react';
+
+class Navbar extends Component {
+    render() {
+        const num = this.props.value;
+        return (
+            <nav className="navbar">
+                <span className="navbar-logo">
+                    <i className="fas fa-leaf"></i>
+                </span>
+                Habit Tracker{' '}
+                <span className="navbar-count">{console.log(num)}</span>
+            </nav>
+        );
+    }
+}
+
+export default Navbar;

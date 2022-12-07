@@ -1,0 +1,73 @@
+import './app.css';
+import Habits from './components/habits';
+
+import React, { Component } from 'react';
+import Navbar from './components/navbar';
+
+class App extends Component {
+    id = 3;
+    state = {
+        habits: [
+            { id: 0, name: 'reading', count: 5 },
+            { id: 1, name: 'running', count: 2 },
+            { id: 2, name: 'coding', count: 3 },
+        ],
+        num: 0,
+    };
+
+    updateNums = () => {
+        const habits = this.state.habits;
+        let num = this.state.num;
+        for (let i = 0; i < habits.length; i++) {
+            if (habits[i].count === 0) num = 0;
+            else if (habits[i].count >= 1) num++;
+        }
+        this.setState({ num: num });
+        return num;
+    };
+
+    AddHabit = () => {
+        const input_value = document.querySelector('.add-input').value;
+        const habits = this.state.habits;
+        const id = this.id++;
+        this.setState({
+            habits: habits.concat({
+                id: id,
+                name: input_value,
+                count: 0,
+            }),
+        });
+    };
+
+    handleDelete = habit => {
+        const data = this.state.habits;
+        const habits = data.filter(item => item.id !== habit.id);
+        this.setState({ habits });
+    };
+
+    resetCount = () => {
+        const habits = this.state.habits;
+        for (let i = 0; i < habits.length; i++) {
+            habits[i].count = 0;
+        }
+        this.setState({ habits: habits });
+    };
+
+    render() {
+        return (
+            <>
+                <Navbar value={this.updateNums} />
+                <Habits
+                    state={this.state}
+                    handleAddHabit={this.AddHabit}
+                    handleDelete={this.handleDelete}
+                />
+                <button className="habits-reset" onClick={this.resetCount}>
+                    Reset All
+                </button>
+            </>
+        );
+    }
+}
+
+export default App;
